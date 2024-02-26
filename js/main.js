@@ -11,7 +11,7 @@ function fnRender(data) {
         <img src="https://i.ytimg.com/vi/${item.ytid}/hq720.jpg" class="card-img-top" alt="...">
         <div class="card-body">
         <p class="card-title">${item.movie_year}<p>
-          <h5 class="card-title">${item.Title.toString().slice(0,25)}</h5>
+          <h5 class="card-title d-flex align-item-center justify-content-between">${item.Title.toString().slice(0,25)}  <i onclick="fnLoveMovie('${item.ytid}')" class="bi bi-heart"></i></h5>
           <p class="card-text">${item.Categories.toString().slice(0,30)}</p>
           <h4 class="card-text">${item.imdb_rating}</h4>
           <a href="https://www.youtube.com/watch?v=${item.ytid}" target=""_blank class="btn btn-warning">watch movies</a>
@@ -36,7 +36,6 @@ function fnRating(value){
         fnRender(partMovies.sort((a,b)=>b.imdb_rating - a.imdb_rating))
     }
 }
-
 let arrCategory = []
 partMovies.forEach((item)=>{
     if(!arrCategory.includes(item.Categories))
@@ -51,6 +50,18 @@ arrCategory.forEach(item =>{
 })
 function fnCategory(value){
     fnRender(partMovies.filter((item)=> item.Categories == value))
-
 }
-
+function movieSearch(e){
+    e.preventDefault()
+    let mov = e.target.mov.value
+    fnRender(partMovies.filter((i)=> 
+    i.Title.toString().toLowerCase().includes(mov.toLowerCase()) &&
+    i.Title.toString().toLowerCase() [0] == mov.toLowerCase()[0]        
+    ))
+}
+let intialLocalDate = []
+function fnLoveMovie(id){
+    console.log(partMovies.find((item)=>item.ytid == id));
+    intialLocalDate.push(partMovies.find((item)=> item.ytid == id))
+    window.localStorage.setItem('localMovie',JSON.stringify(intialLocalDate))
+}
